@@ -13,7 +13,6 @@ const cardPing = document.getElementById("card-ping");
 const cardDownload = document.getElementById("card-download");
 const cardUpload = document.getElementById("card-upload");
 
-// Server mapping endpoints configuration
 const serversMap = {
     "jio_mumbai": { name: "Reliance Jio - Mumbai Hub", pingBase: 12, speedMult: 1.2 },
     "jio_delhi": { name: "Reliance Jio - North Node", pingBase: 18, speedMult: 1.15 },
@@ -28,7 +27,6 @@ const serversMap = {
     "auto": { name: "Auto-Select Optimal Server", pingBase: 12, speedMult: 1.2 }
 };
 
-// Futuristic AI Speech Simulator
 function speak(text) {
     if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
@@ -49,7 +47,6 @@ async function startSpeedTest() {
     serverSelect.disabled = true;
     startBtn.style.opacity = "0.5";
     
-    // Reset Values
     pingVal.innerText = "0";
     downloadVal.innerText = "0.00";
     uploadVal.innerText = "0.00";
@@ -62,7 +59,6 @@ async function startSpeedTest() {
     let selectedKey = serverSelect.value;
     let activeServer = serversMap[selectedKey] || serversMap["auto"];
 
-    // Phase 1: Ping Test
     currentMetric.innerText = "CONNECTING NODE";
     jarvisStatus.innerText = `JARVIS: Handshaking with ${activeServer.name}...`;
     speak(`Connecting to ${activeServer.name}. Measuring latency.`);
@@ -72,7 +68,6 @@ async function startSpeedTest() {
     pingVal.innerText = pingResult;
     cardPing.classList.remove('active');
 
-    // Phase 2: Download Test
     currentMetric.innerText = "DOWNLINK SPEED";
     jarvisStatus.innerText = `JARVIS: Streaming packets from server...`;
     speak("Executing download analysis.");
@@ -82,7 +77,6 @@ async function startSpeedTest() {
     downloadVal.innerText = downloadSpeed.toFixed(2);
     cardDownload.classList.remove('active');
 
-    // Phase 3: Upload Test
     currentMetric.innerText = "UPLINK SPEED";
     jarvisStatus.innerText = `JARVIS: Transmitting packet arrays...`;
     speak("Measuring upload capacity.");
@@ -92,7 +86,6 @@ async function startSpeedTest() {
     uploadVal.innerText = uploadSpeed.toFixed(2);
     cardUpload.classList.remove('active');
 
-    // Completion
     currentMetric.innerText = "TEST COMPLETE";
     jarvisStatus.innerText = `JARVIS: Test routed via ${activeServer.name}. Optimal.`;
     speedDisplay.innerText = downloadSpeed.toFixed(2);
@@ -106,7 +99,6 @@ async function startSpeedTest() {
     startBtn.innerHTML = '<i class="fa-solid fa-redo"></i> RE-INITIALIZE TEST';
 }
 
-// Ping measurement calibrated per server profile
 async function measurePing(baseLatency) {
     let start = performance.now();
     try {
@@ -118,7 +110,6 @@ async function measurePing(baseLatency) {
     return Math.max(ping, 4);
 }
 
-// Download speed simulator utilizing multiplier adjustments for specific servers (like Jio vs Cloud servers)
 async function simulateDownloadSpeed(multiplier) {
     return new Promise((resolve) => {
         const imageAddr = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop"; 
