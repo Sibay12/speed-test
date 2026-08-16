@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speed Test - Tekna Technologies</title>
-    <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -45,7 +44,6 @@
 
         <!-- Main Dashboard -->
         <main>
-            <!-- Speed Gauge Center -->
             <div class="gauge-container">
                 <div class="gauge-ring"></div>
                 <div class="gauge-inner">
@@ -55,7 +53,6 @@
                 </div>
             </div>
 
-            <!-- Metrics Grid -->
             <div class="metrics-grid">
                 <div class="metric-card" id="card-ping">
                     <i class="fa-solid fa-wave-square"></i>
@@ -80,15 +77,24 @@
                 </div>
             </div>
 
-            <!-- Action Button -->
             <button id="start-btn" onclick="startSpeedTest()">
                 <i class="fa-solid fa-power-off"></i> INITIALIZE TEST
             </button>
         </main>
 
-        <!-- Footer -->
-        <footer>
-            <p>System Architecture by <span style="color: var(--neon-cyan);">Tekna Technologies</span></p>
+        <!-- Footer Section with Policy Links -->
+        <footer class="footer-section">
+            <div class="footer-links">
+                <a href="terms.html">Terms & Conditions</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="refund.html">Refund Policy</a>
+                <a href="safety.html">Safety Guidelines</a>
+                <a href="license.html">License Agreement</a>
+            </div>
+            <p class="copyright">
+                &copy; 2026 Tekna Technologies. All Rights Reserved. | 
+                <span style="color:var(--neon-cyan);">Proprietary Diagnostic System</span>
+            </p>
         </footer>
     </div>
 
