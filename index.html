@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Test - Tekna Technologies</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="hud-grid"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-microchip-ai"></i>
+                <span>TEKNA // <strong style="color: var(--neon-cyan);">SPEED TEST</strong></span>
+            </div>
+            <div class="ai-status">
+                <span class="pulse-dot"></span>
+                <span id="jarvis-status">JARVIS Core: ONLINE</span>
+            </div>
+        </header>
+
+        <!-- Server Selector Panel -->
+        <div class="server-selector-wrapper">
+            <label for="server-select"><i class="fa-solid fa-server"></i> SELECT NODE SERVER:</label>
+            <select id="server-select">
+                <option value="auto">🌐 Auto-Select (Optimal Latency)</option>
+                <option value="jio_mumbai">🇮🇳 Reliance Jio - Mumbai Hub (Jio-optimized)</option>
+                <option value="jio_delhi">🇮🇳 Reliance Jio - North Node</option>
+                <option value="airtel_delhi">🇮🇳 Bharti Airtel - Delhi Backbone</option>
+                <option value="vi_mumbai">🇮🇳 Vodafone Idea - West Gateway</option>
+                <option value="bsnl_kolkata">🇮🇳 BSNL - East India Regional</option>
+                <option value="aws_mumbai">☁️ AWS Cloud - Mumbai Region</option>
+                <option value="azure_pune">☁️ Microsoft Azure - Pune Node</option>
+                <option value="do_blr">☁️ DigitalOcean - Bangalore Edge</option>
+                <option value="cloudflare">⚡ Cloudflare Global Anycast</option>
+                <option value="google">⚡ Google Edge Network - IN</option>
+            </select>
+        </div>
+
+        <!-- Main Dashboard -->
+        <main>
+            <!-- Speed Gauge Center -->
+            <div class="gauge-container">
+                <div class="gauge-ring"></div>
+                <div class="gauge-inner">
+                    <span class="metric-label" id="current-metric">READY</span>
+                    <h1 id="speed-display">0.00</h1>
+                    <span class="unit" id="unit-display">Mbps</span>
+                </div>
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="metrics-grid">
+                <div class="metric-card" id="card-ping">
+                    <i class="fa-solid fa-wave-square"></i>
+                    <div>
+                        <span class="label">PING</span>
+                        <h3><span id="ping-val">0</span> <small>ms</small></h3>
+                    </div>
+                </div>
+                <div class="metric-card" id="card-download">
+                    <i class="fa-solid fa-download"></i>
+                    <div>
+                        <span class="label">DOWNLOAD</span>
+                        <h3><span id="download-val">0.00</span> <small>Mbps</small></h3>
+                    </div>
+                </div>
+                <div class="metric-card" id="card-upload">
+                    <i class="fa-solid fa-upload"></i>
+                    <div>
+                        <span class="label">UPLOAD</span>
+                        <h3><span id="upload-val">0.00</span> <small>Mbps</small></h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <button id="start-btn" onclick="startSpeedTest()">
+                <i class="fa-solid fa-power-off"></i> INITIALIZE TEST
+            </button>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>System Architecture by <span style="color: var(--neon-cyan);">Tekna Technologies</span></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
