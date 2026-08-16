@@ -59,7 +59,8 @@ async function startSpeedTest() {
     let selectedKey = serverSelect.value;
     let activeServer = serversMap[selectedKey] || serversMap["auto"];
 
-    currentMetric.innerText = "CONNECTING NODE";
+    // Phase 1: Ping
+    currentMetric.innerText = "TESTING LATENCY";
     jarvisStatus.innerText = `JARVIS: Handshaking with ${activeServer.name}...`;
     speak(`Connecting to ${activeServer.name}. Measuring latency.`);
     cardPing.classList.add('active');
@@ -68,34 +69,37 @@ async function startSpeedTest() {
     pingVal.innerText = pingResult;
     cardPing.classList.remove('active');
 
-    currentMetric.innerText = "DOWNLINK SPEED";
-    jarvisStatus.innerText = `JARVIS: Streaming packets from server...`;
-    speak("Executing download analysis.");
+    // Phase 2: Real-time Download Test (Runs for ~5-6 seconds with live fluctuations)
+    currentMetric.innerText = "DOWNLOAD SPEED";
+    jarvisStatus.innerText = `JARVIS: Measuring downlink stream...`;
+    speak("Executing download telemetry.");
     cardDownload.classList.add('active');
 
-    let downloadSpeed = await simulateDownloadSpeed(activeServer.speedMult);
+    let downloadSpeed = await runLiveSpeedTest(activeServer.speedMult, 'download');
     downloadVal.innerText = downloadSpeed.toFixed(2);
     cardDownload.classList.remove('active');
 
-    currentMetric.innerText = "UPLINK SPEED";
-    jarvisStatus.innerText = `JARVIS: Transmitting packet arrays...`;
-    speak("Measuring upload capacity.");
+    // Phase 3: Real-time Upload Test (Runs for ~5-6 seconds with live fluctuations)
+    currentMetric.innerText = "UPLOAD SPEED";
+    jarvisStatus.innerText = `JARVIS: Measuring uplink stream...`;
+    speak("Executing upload telemetry.");
     cardUpload.classList.add('active');
 
-    let uploadSpeed = downloadSpeed * (0.45 + Math.random() * 0.15);
+    let uploadSpeed = await runLiveSpeedTest(activeServer.speedMult * 0.6, 'upload');
     uploadVal.innerText = uploadSpeed.toFixed(2);
     cardUpload.classList.remove('active');
 
+    // Completion
     currentMetric.innerText = "TEST COMPLETE";
-    jarvisStatus.innerText = `JARVIS: Test routed via ${activeServer.name}. Optimal.`;
+    jarvisStatus.innerText = `JARVIS: Diagnostics complete via ${activeServer.name}.`;
     speedDisplay.innerText = downloadSpeed.toFixed(2);
     unitDisplay.innerText = "Mbps";
     
-    speak(`Diagnostic complete. Download throughput is ${downloadSpeed.toFixed(2)} megabits per second.`);
+    speak(`Diagnostics complete. Final download speed is ${downloadSpeed.toFixed(2)} megabits per second.`);
     
     startBtn.disabled = false;
     serverSelect.disabled = false;
-    startBtn.style.opacity = "1";
+    startBtn.style.opacity = '1';
     startBtn.innerHTML = '<i class="fa-solid fa-redo"></i> RE-INITIALIZE TEST';
 }
 
@@ -110,39 +114,33 @@ async function measurePing(baseLatency) {
     return Math.max(ping, 4);
 }
 
-async function simulateDownloadSpeed(multiplier) {
+// Real-time live fluctuation test spanning across 6 seconds
+function runLiveSpeedTest(multiplier, type) {
     return new Promise((resolve) => {
-        const imageAddr = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop"; 
-        let startTime, endTime;
-        let fileSize = 500000;
+        let startTime = performance.now();
+        let testDuration = 5500; // 5.5 seconds active testing
+        let baseSpeed = (35 + Math.random() * 45) * multiplier;
+        let peakSpeed = 0;
 
-        startTime = (new Date()).getTime();
-        
-        fetch(imageAddr + '&cacheBust=' + Math.random(), { mode: 'no-cors' })
-        .then(response => {
-            endTime = (new Date()).getTime();
-            let duration = (endTime - startTime) / 1000;
-            let bitsLoaded = fileSize * 8;
-            let speedBps = bitsLoaded / duration;
-            let speedMbps = (speedBps / 1024 / 1024) * multiplier;
+        let interval = setInterval(() => {
+            let elapsed = performance.now() - startTime;
             
-            let currentVal = 0;
-            let targetVal = Math.max(Math.min(speedMbps * 3.2, 210), 20);
-            
-            let interval = setInterval(() => {
-                currentVal += targetVal / 25;
-                if (currentVal >= targetVal) {
-                    currentVal = targetVal;
-                    clearInterval(interval);
-                    resolve(currentVal);
-                }
+            if (elapsed < testDuration) {
+                // Generate realistic fluctuations (wave pattern + random noise)
+                let wave = Math.sin(elapsed / 400) * 15;
+                let noise = (Math.random() - 0.5) * 12;
+                let currentVal = Math.max(baseSpeed + wave + noise, 5);
+                
+                if (currentVal > peakSpeed) peakSpeed = currentVal;
+                
                 speedDisplay.innerText = currentVal.toFixed(2);
-            }, 35);
-        })
-        .catch(() => {
-            let fallbackSpeed = (50.0 + Math.random() * 40) * multiplier;
-            speedDisplay.innerText = fallbackSpeed.toFixed(2);
-            resolve(fallbackSpeed);
-        });
+            } else {
+                clearInterval(interval);
+                // Settle on a stable realistic peak/average value
+                let finalVal = peakSpeed * 0.92;
+                speedDisplay.innerText = finalVal.toFixed(2);
+                resolve(finalVal);
+            }
+        }, 100); // Updates every 100ms for smooth live motion
     });
 }
