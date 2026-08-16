@@ -28,7 +28,6 @@ body {
     padding: 20px 0;
 }
 
-/* Futuristic Background HUD Grid */
 .hud-grid {
     position: absolute;
     width: 200vw;
@@ -106,7 +105,6 @@ header {
     100% { transform: scale(0.95); opacity: 0.8; }
 }
 
-/* Server Selector Styling */
 .server-selector-wrapper {
     margin-bottom: 20px;
     background: rgba(0, 0, 0, 0.3);
@@ -138,17 +136,11 @@ header {
     transition: all 0.3s ease;
 }
 
-#server-select:hover, #server-select:focus {
-    border-color: var(--neon-cyan);
-    box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
-}
-
 #server-select option {
     background: #030712;
     color: var(--text-main);
 }
 
-/* Gauge Center */
 .gauge-container {
     position: relative;
     width: 200px;
@@ -203,7 +195,6 @@ header {
     font-family: 'Orbitron', sans-serif;
 }
 
-/* Metrics Grid */
 .metrics-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -250,7 +241,6 @@ header {
     color: var(--text-muted);
 }
 
-/* Action Button */
 #start-btn {
     width: 100%;
     padding: 15px;
@@ -275,13 +265,39 @@ header {
     box-shadow: 0 0 30px rgba(0, 240, 255, 0.7);
 }
 
-footer {
+/* Footer Styling */
+.footer-section {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
     text-align: center;
-    font-size: 0.7rem;
+}
+
+.footer-links {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.footer-links a {
     color: var(--text-muted);
-    border-top: 1px solid rgba(255,255,255,0.08);
-    padding-top: 12px;
-    margin-top: 15px;
+    font-size: 0.7rem;
+    text-decoration: none;
+    transition: color 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-links a:hover {
+    color: var(--neon-cyan);
+}
+
+.copyright {
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    font-family: 'Orbitron', sans-serif;
 }
 
 @media(max-width: 600px) {
